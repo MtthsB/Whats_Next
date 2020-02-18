@@ -1,5 +1,5 @@
 export enum Page {
-  Overview = 'Overview',
+  World = 'World',
   Europe = 'Europe',
   Search = 'Search'
 }
