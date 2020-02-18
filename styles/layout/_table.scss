@@ -66,9 +66,13 @@
     :first-child {
       text-transform: lowercase;
       font-size: .8rem;
-      padding: .5rem
+      padding: .3rem;
+      border-bottom: 0.2px solid $color-green-primary;
     }
 
+    :last-child {
+      padding: .5rem;
+    }
 
   }
 }
