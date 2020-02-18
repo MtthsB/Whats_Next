@@ -1,10 +1,12 @@
 import React from 'react'
 
+import { Layout } from '../components'
+
 // styling
 import '../styles/main.scss'
 
 export default () => {
   return (
-    <h1>Here you can search for countries</h1>
+    <Layout title='Search for a country' />
   )
 }

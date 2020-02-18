@@ -6,7 +6,7 @@
 
 ## 2. World Page
 2001: Hook up page with API  
-2002: Create page grid for country information display  
+2002: Create and style page structure for country information display  
 2003: Set up pagination system  
 2004: Style loading of new information  
 

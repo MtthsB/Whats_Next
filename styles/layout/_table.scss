@@ -1,0 +1,72 @@
+.card {
+  -moz-perspective: 150rem;
+  height: 5rem;
+  perspective: 150rem;
+  position: relative;
+  width: 75%;
+
+  &__row {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    height: 5rem;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    transition: all 1s ease;
+    width: 100%;
+    
+    &--front {
+        align-items: center;
+        background-color: $color-green-primary;
+        color: $color-brown-light;
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+    }
+    
+    &--back {
+      align-items: center;
+      background-color: $color-brown-light;   
+      color: $color-green-primary;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      transform: rotateX(-180deg);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-brown-light
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+}
+  
+  
+  &:hover &__row--front {
+      transform: rotateX(180deg);
+  }
+  
+  &:hover &__row--back {
+      transform: rotateX(0deg);
+  }
+
+  &__flipside {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: 10rem;
+    text-transform: uppercase;
+
+    :first-child {
+      text-transform: lowercase;
+      font-size: .8rem;
+      padding: .5rem
+    }
+
+
+  }
+}

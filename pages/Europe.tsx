@@ -1,10 +1,12 @@
 import React from 'react'
 
+import { Layout } from '../components'
+
 // styling
 import '../styles/main.scss'
 
 export default () => {
   return (
-    <h1>This will portray a list of european countries as fetched from the API</h1>
+    <Layout title='The Great Old European Union' />
   )
 }
