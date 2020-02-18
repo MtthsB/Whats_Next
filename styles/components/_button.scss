@@ -1,0 +1,33 @@
+.btn {
+  &,
+  &:link,
+  &:visited {
+    background-color: $color-brown-light;
+    border-radius: .5px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid $color-brown-primary;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .2s;
+    width: 75%;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    transform: scaleX(1.05);
+  }
+
+  &__text {
+    font-size: 1.5rem;
+  }
+}
