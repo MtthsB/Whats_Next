@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import * as countryService from '../services/countryService'
 import { Country } from '../models'
-import { Layout, Spinner } from '../components'
+import { Layout, Spinner, Popup, Card } from '../components'
 
 // styling
 import '../styles/main.scss'
@@ -16,6 +16,7 @@ const World = (props: Props): JSX.Element => {
   const [ loadPosition, updateLoadPosition ] = useState<number>(10)
   const [isLoading, toggleLoading] = useState<boolean>(true)
   const [isFetching, toggleFetching] = useState<boolean>(false)
+  const [ selectedCountry, setSelection ] = useState<number>(null)
 
   const scrollOffset = 300
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -48,27 +49,7 @@ const World = (props: Props): JSX.Element => {
     }
   }
 
-  const renderRow = (country: Country, index: number): JSX.Element => {
-    return (
-      <div className="card" key={`${index}-${country.alpha2Code}`}>
-        <p className="card__row card__row--front">{country.name}</p>
-        <div className="card__row card__row--back">
-          <div className="card__flipside">
-            <p>Name</p>
-            <p>{country.name}</p>
-          </div>
-          <div className="card__flipside">
-            <p>Capital</p>
-            <p>{country.capital}</p>
-          </div>
-          <div className="card__flipside">
-            <p>Alpha2Code</p>
-            <p>{country.alpha2Code}</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const handleSelection = (index: number): void => setSelection(index)
 
   if (isLoading) {
     return (
@@ -80,9 +61,10 @@ const World = (props: Props): JSX.Element => {
     return (
       <Layout title="See the World">
         <div className='scrollContainer' ref={scrollRef}>
-          {countries.map(renderRow)}
+          {countries.map((country, index) => <Card key={`${index}-${country.alpha2Code}`} country={country} index={index} handleClick={handleSelection} />)}
           {isFetching && <Spinner />}
         </div>
+        {(!!selectedCountry || selectedCountry === 0) && <Popup data={countries[selectedCountry]} />}
       </Layout>
     )
   }
