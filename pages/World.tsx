@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
+import classnames from 'classnames'
 
 import * as countryService from '../services/countryService'
 import { Country } from '../models'
 import { Layout } from '../components'
+import { useInterval } from '../hooks'
 
 // styling
 import '../styles/main.scss'
@@ -14,10 +16,12 @@ type Props = {
 const World = (props: Props): JSX.Element => {
   const [ countries, updateCountries ] = useState<Country[]>(props.countries.slice(0, 20))
   const [ loadPosition, updateLoadPosition ] = useState<number>(10)
-  const [isLoading, toggleLoading] = useState<boolean>(true)
-  const [isFetching, toggleFetching] = useState<boolean>(false)
+  const [ isLoading, toggleLoading ] = useState<boolean>(true)
+  const [ isFetching, toggleFetching ] = useState<boolean>(false)
 
-  const scrollOffset = 200
+  const [ toRender, updateToRender ] = useState<Country[]>(null)
+
+  const scrollOffset = 100
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -31,7 +35,30 @@ const World = (props: Props): JSX.Element => {
     }
 
     return () => window.removeEventListener('scroll', onScroll)
-  })
+  }, [])
+
+  useInterval(() => {
+    const countryArray = countries
+    const country = countryArray.pop()
+    if (country) {
+      toRender ? updateToRender([...toRender, country]) : updateToRender([ country ])
+    }
+  }, 500)
+
+  // useEffect(() => {
+  //   if (!isLoading && !isFetching) {
+  //     const timerHandle = setInterval(() => {
+  //       const countryArray = [ ...countries ]
+
+  //       const country = countryArray.pop()
+  //       if (country) {
+  //         toRender ? updateToRender([...toRender, country]) : updateToRender([ country ])
+  //       } else {
+  //         return () => clearInterval(timerHandle)
+  //       }
+  //     })
+  //   }
+  // }, [isLoading, isFetching, countries])
 
   const onScroll = () => {
     if ((window.scrollY + window.innerHeight >= scrollRef.current.scrollHeight - scrollOffset) && (countries.length < props.countries.length)) {
@@ -49,8 +76,10 @@ const World = (props: Props): JSX.Element => {
   }
 
   const renderRow = (country: Country, index: number): JSX.Element => {
+    const className = classnames('card visible')
+
     return (
-      <div className="card" key={index}>
+      <div className={className} key={`${index}-${country.alpha2Code}`}>
         <p className="card__row card__row--front">{country.name}</p>
         <div className="card__row card__row--back">
           <div className="card__flipside">
@@ -80,7 +109,7 @@ const World = (props: Props): JSX.Element => {
     return (
       <Layout title="See the World">
         <div className='scrollContainer' ref={scrollRef}>
-          {countries.map(renderRow)}
+          {toRender && toRender.map(renderRow)}
           {isFetching && <h1>Loading...</h1>}
         </div>
       </Layout>
