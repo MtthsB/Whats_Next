@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import * as countryService from '../services/countryService'
 import { Country } from '../models'
-import { Layout, Spinner } from '../components'
+import { Layout, Spinner, Card, Popup } from '../components'
 
 // styling
 import '../styles/main.scss'
@@ -16,6 +16,7 @@ const Europe = (props: Props): JSX.Element => {
   const [ loadPosition, updateLoadPosition ] = useState<number>(10)
   const [isLoading, toggleLoading] = useState<boolean>(true)
   const [isFetching, toggleFetching] = useState<boolean>(false)
+  const [ selectedCountry, setSelection ] = useState<number>(null)
 
   const scrollOffset = 300
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -33,6 +34,10 @@ const Europe = (props: Props): JSX.Element => {
     return () => window.removeEventListener('scroll', onScroll)
   })
 
+  const closeModal = () => setSelection(null)
+
+  const handleSelection = (index: number): void => setSelection(index)
+
   const onScroll = () => {
     if ((window.scrollY + window.innerHeight >= scrollRef.current.scrollHeight - scrollOffset) && (countries.length < props.countries.length)) {
       toggleFetching(true)
@@ -48,28 +53,6 @@ const Europe = (props: Props): JSX.Element => {
     }
   }
 
-  const renderRow = (country: Country, index: number): JSX.Element => {
-    return (
-      <div className="card" key={`${index}-${country.alpha2Code}`}>
-        <p className="card__row card__row--front">{country.name}</p>
-        <div className="card__row card__row--back">
-          <div className="card__flipside">
-            <p>Name</p>
-            <p>{country.name}</p>
-          </div>
-          <div className="card__flipside">
-            <p>Capital</p>
-            <p>{country.capital}</p>
-          </div>
-          <div className="card__flipside">
-            <p>Alpha2Code</p>
-            <p>{country.alpha2Code}</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   if (isLoading) {
     return (
       <Layout title="Ye Olde Europe (before Brexit)">
@@ -80,9 +63,10 @@ const Europe = (props: Props): JSX.Element => {
     return (
       <Layout title="Ye Olde Europe (before Brexit)">
         <div className='scrollContainer' ref={scrollRef}>
-          {countries.map(renderRow)}
+          {countries.map((country, index) => <Card key={`${index}-${country.alpha2Code}`} country={country} index={index} handleClick={handleSelection} />)}
           {isFetching && <Spinner />}
         </div>
+        {(!!selectedCountry || selectedCountry === 0) && <Popup handleClose={closeModal} data={countries[selectedCountry]} />}
       </Layout>
     )
   }

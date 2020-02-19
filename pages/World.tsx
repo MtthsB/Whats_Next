@@ -34,6 +34,10 @@ const World = (props: Props): JSX.Element => {
     return () => window.removeEventListener('scroll', onScroll)
   })
 
+  const closeModal = () => setSelection(null)
+
+  const handleSelection = (index: number): void => setSelection(index)
+
   const onScroll = () => {
     if ((window.scrollY + window.innerHeight >= scrollRef.current.scrollHeight - scrollOffset) && (countries.length < props.countries.length)) {
       toggleFetching(true)
@@ -49,8 +53,6 @@ const World = (props: Props): JSX.Element => {
     }
   }
 
-  const handleSelection = (index: number): void => setSelection(index)
-
   if (isLoading) {
     return (
       <Layout title="See the World">
@@ -64,7 +66,7 @@ const World = (props: Props): JSX.Element => {
           {countries.map((country, index) => <Card key={`${index}-${country.alpha2Code}`} country={country} index={index} handleClick={handleSelection} />)}
           {isFetching && <Spinner />}
         </div>
-        {(!!selectedCountry || selectedCountry === 0) && <Popup data={countries[selectedCountry]} />}
+        {(!!selectedCountry || selectedCountry === 0) && <Popup handleClose={closeModal} data={countries[selectedCountry]} />}
       </Layout>
     )
   }
