@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import * as countryService from '../services/countryService'
 import { Country } from '../models'
-import { Layout } from '../components'
+import { Layout, Spinner } from '../components'
 
 // styling
 import '../styles/main.scss'
@@ -17,7 +17,7 @@ const World = (props: Props): JSX.Element => {
   const [isLoading, toggleLoading] = useState<boolean>(true)
   const [isFetching, toggleFetching] = useState<boolean>(false)
 
-  const scrollOffset = 200
+  const scrollOffset = 300
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const World = (props: Props): JSX.Element => {
 
   const renderRow = (country: Country, index: number): JSX.Element => {
     return (
-      <div className="card" key={index}>
+      <div className="card" key={`${index}-${country.alpha2Code}`}>
         <p className="card__row card__row--front">{country.name}</p>
         <div className="card__row card__row--back">
           <div className="card__flipside">
@@ -73,7 +73,7 @@ const World = (props: Props): JSX.Element => {
   if (isLoading) {
     return (
       <Layout title="See the World">
-        <h1>Loading...</h1>
+        <Spinner />
       </Layout>
     )
   } else {
@@ -81,7 +81,7 @@ const World = (props: Props): JSX.Element => {
       <Layout title="See the World">
         <div className='scrollContainer' ref={scrollRef}>
           {countries.map(renderRow)}
-          {isFetching && <h1>Loading...</h1>}
+          {isFetching && <Spinner />}
         </div>
       </Layout>
     )

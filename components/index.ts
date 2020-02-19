@@ -1,4 +1,5 @@
 import NavLink from './NavLink'
 import Layout from './PageLayout'
+import Spinner from './Spinner'
 
-export { NavLink, Layout }
+export { Layout, NavLink, Spinner }
