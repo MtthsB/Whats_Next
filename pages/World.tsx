@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import * as countryService from '../services/countryService'
 import { Country } from '../models'
@@ -12,17 +12,38 @@ type Props = {
 }
 
 const World = (props: Props): JSX.Element => {
-  const [ countries, updateCountries ] = useState<Country[]>(props.countries)
+  const [ countries, updateCountries ] = useState<Country[]>(props.countries.slice(0, 20))
+  const [ loadPosition, updateLoadPosition ] = useState<number>(10)
   const [isLoading, toggleLoading] = useState<boolean>(true)
+  const [isFetching, toggleFetching] = useState<boolean>(false)
+
+  const scrollOffset = 200
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (props.countries) toggleLoading(!isLoading)
-  }, [countries])
+    window.addEventListener('scroll', onScroll)
 
-  if (isLoading) {
-    return (
-      <h1>Loading...</h1>
-    )
+    if (props.countries) {
+      // Just fake some initial loading state
+      setTimeout(() => {
+        toggleLoading(false)
+      }, 1000)
+    }
+
+    return () => window.removeEventListener('scroll', onScroll)
+  })
+
+  const onScroll = () => {
+    if ((window.scrollY + window.innerHeight >= scrollRef.current.scrollHeight - scrollOffset) && (countries.length < props.countries.length)) {
+      toggleFetching(true)
+
+      // Just fake some loading state
+      setTimeout(() => {
+        updateCountries(countries.concat(props.countries.slice(loadPosition, loadPosition + 10)))
+        updateLoadPosition(loadPosition + 10)
+        toggleFetching(false)
+      }, 1000)
+    }
   }
 
   const renderRow = (country: Country, index: number): JSX.Element => {
@@ -47,11 +68,22 @@ const World = (props: Props): JSX.Element => {
     )
   }
 
-  return (
-    <Layout title="See the World">
-      {countries.slice(0, 10).map(renderRow)}
-    </Layout>
-  )
+  if (isLoading) {
+    return (
+      <Layout title="See the World">
+        <h1>Loading...</h1>
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout title="See the World">
+        <div className='scrollContainer' ref={scrollRef}>
+          {countries.map(renderRow)}
+          {isFetching && <h1>Loading...</h1>}
+        </div>
+      </Layout>
+    )
+  }
 }
 
 World.getInitialProps = async () => {
