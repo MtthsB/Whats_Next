@@ -37,9 +37,11 @@ const World = (props: Props): JSX.Element => {
     if ((window.scrollY + window.innerHeight >= scrollRef.current.scrollHeight - scrollOffset) && (countries.length < props.countries.length)) {
       toggleFetching(true)
 
+      const amountToLoad = (props.countries.length - countries.length < 10) ? (props.countries.length - countries.length) : 10
+
       // Just fake some loading state
       setTimeout(() => {
-        updateCountries(countries.concat(props.countries.slice(loadPosition, loadPosition + 10)))
+        updateCountries(countries.concat(props.countries.slice(loadPosition, loadPosition + amountToLoad)))
         updateLoadPosition(loadPosition + 10)
         toggleFetching(false)
       }, 1000)
