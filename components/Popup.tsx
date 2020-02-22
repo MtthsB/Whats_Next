@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Country } from '../models'
+import images from '../assets'
 
 type Props = {
   data: Country;
@@ -15,20 +16,32 @@ const Popup = (props: Props) => {
   }
 
   useEffect(() => {
-    // Bind the event listener
     document.addEventListener('mousedown', handleClick)
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClick)
     }
   })
 
-  return (
-    <div className="popup" onClick={handleClick}>
-      <div className="popup__content" ref={clickRef}>
-        {props.data.name}
+  const renderContent = () => {
+    const keys = Object.keys(props.data)
+    return keys.map(key => renderRow(key))
+  }
+
+  const renderRow = (key) => {
+    return (
+      <div className="popup__item">
+        <img src={images[key]} alt={key} className="popup__img" />
+        <text className="popup__stat">{props.data[key]}</text>
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <section className="popup" onClick={handleClick}>
+      <div className="popup__content" ref={clickRef}>
+        {renderContent()}
+      </div>
+    </section>
   )
 }
 

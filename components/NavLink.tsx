@@ -12,10 +12,10 @@ type Props = {
 const NavLink = (props: Props) => {
   return (
     <Link href={props.path}>
-      <div className='btn'>
+      <section className='btn'>
         <a className='btn__text'>{props.text}</a>
         <img src={images.arrowRight} alt={props.alt} className='img'/>
-      </div>
+      </section>
     </Link>
   )
 }
