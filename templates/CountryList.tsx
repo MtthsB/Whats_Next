@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Country } from '../models'
-import { Layout, Spinner, Card, Popup } from '../components'
+import { Spinner, Card, Popup } from '../components'
 
 // styling
 import '../styles/main.scss'
 
 type Props = {
   countries: Country[];
-  title: string;
 }
 
 const CountryPage = (props: Props): JSX.Element => {
@@ -54,20 +53,16 @@ const CountryPage = (props: Props): JSX.Element => {
   }
 
   if (isLoading) {
-    return (
-      <Layout title={props.title}>
-        <Spinner />
-      </Layout>
-    )
+    return <Spinner />
   } else {
     return (
-      <Layout title={props.title}>
-        <div className='scrollContainer' ref={scrollRef}>
+      <div className='container' >
+        <div className='container__scroll' ref={scrollRef}>
           {countries.map((country, index) => <Card key={`${index}-${country.alpha2Code}`} country={country} index={index} handleClick={handleSelection} />)}
           {isFetching && <Spinner />}
         </div>
         {(!!selectedCountry || selectedCountry === 0) && <Popup handleClose={closeModal} data={countries[selectedCountry]} />}
-      </Layout>
+      </div>
     )
   }
 }

@@ -1,3 +1,3 @@
-import CountryPage from './CountryPage'
+import CountryList from './CountryList'
 
-export { CountryPage }
+export { CountryList }

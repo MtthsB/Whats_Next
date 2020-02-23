@@ -25,6 +25,24 @@
     padding: 3.2rem 10rem;
   }
 
+  &__error {
+    align-items: center;
+    background-color: $color-grey-light;
+    border-radius: 3px;
+    box-shadow: 0 2rem 4rem rgba($color-black, .2);
+    color: $color-red-primary;
+    display: flex;
+    flex-direction: column;
+    flex: 5;
+    font-size: 1.7rem;
+    font-weight: 900;
+    justify-content: center;
+    margin: auto;
+    max-width: 70%;
+    padding: 5rem 10rem;
+    text-transform: uppercase;
+  }
+
   &__item {
     display: flex;
     flex-direction: row;

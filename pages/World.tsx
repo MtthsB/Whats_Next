@@ -2,10 +2,11 @@ import React from 'react'
 
 import * as countryService from '../services/countryService'
 import { Country } from '../models'
-import { CountryPage } from '../templates'
+import { CountryList } from '../templates'
 
 // styling
 import '../styles/main.scss'
+import { Layout } from '../components'
 
 type Props = {
   countries: Country[];
@@ -13,7 +14,9 @@ type Props = {
 
 const World = (props: Props): JSX.Element => {
   return (
-    <CountryPage title='See the world' countries={props.countries} />
+    <Layout title='See the world'>
+      <CountryList countries={props.countries} />
+    </Layout>
   )
 }
 

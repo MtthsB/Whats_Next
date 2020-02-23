@@ -3,13 +3,15 @@ import { Country } from '../models'
 import images from '../assets'
 
 type Props = {
-  data: Country;
+  data?: Country;
   handleClose(): void;
+  hasError?: boolean;
 }
+
 const Popup = (props: Props) => {
   const clickRef = useRef()
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     if ((clickRef.current && !clickRef.current.contains(event.target)) || event.key === 'Escape') {
       props.handleClose()
     }
@@ -33,18 +35,28 @@ const Popup = (props: Props) => {
     return (
       <div key={`${index}-${key}`} className="popup__item">
         <img src={images[key]} alt={key} className="popup__img" />
-        <span className="popup__stat">{props.data[key]}</span>
+        <span className="popup__stat">{props?.data[key]}</span>
       </div>
     )
   }
 
-  return (
-    <section className="popup" onClick={handleClick}>
-      <div className="popup__content" ref={clickRef}>
-        {renderContent()}
-      </div>
-    </section>
-  )
+  if (props.hasError) {
+    return (
+      <section className="popup" onClick={handleClick}>
+        <div className="popup__error" ref={clickRef}>
+          Congratulations, you broke the system!
+        </div>
+      </section>
+    )
+  } else {
+    return (
+      <section className="popup" onClick={handleClick}>
+        <div className="popup__content" ref={clickRef}>
+          {renderContent()}
+        </div>
+      </section>
+    )
+  }
 }
 
 export default Popup
