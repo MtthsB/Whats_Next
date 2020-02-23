@@ -26,14 +26,14 @@ const Popup = (props: Props) => {
 
   const renderContent = () => {
     const keys = Object.keys(props.data)
-    return keys.map(key => renderRow(key))
+    return keys.map((key, index) => renderRow(key, index))
   }
 
-  const renderRow = (key) => {
+  const renderRow = (key, index) => {
     return (
-      <div className="popup__item">
+      <div key={`${index}-${key}`} className="popup__item">
         <img src={images[key]} alt={key} className="popup__img" />
-        <text className="popup__stat">{props.data[key]}</text>
+        <span className="popup__stat">{props.data[key]}</span>
       </div>
     )
   }
