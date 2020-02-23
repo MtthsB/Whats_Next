@@ -10,15 +10,17 @@ const Popup = (props: Props) => {
   const clickRef = useRef()
 
   const handleClick = (event) => {
-    if (clickRef.current && !clickRef.current.contains(event.target)) {
+    if ((clickRef.current && !clickRef.current.contains(event.target)) || event.key === 'Escape') {
       props.handleClose()
     }
   }
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClick)
+    document.addEventListener('keydown', handleClick)
     return () => {
       document.removeEventListener('mousedown', handleClick)
+      document.addEventListener('keydown', handleClick)
     }
   })
 
