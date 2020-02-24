@@ -14,3 +14,9 @@ export const getEUCountries = async (): Promise<Country[]> => {
   const response = await axios.get<Country[]>(`${APIEndpoint}/regionalbloc/eu?fields=${selectedFields}`)
   return arrayUtils.shuffle(response.data)
 }
+
+export const getCountryByName = async (name: string): Promise<Country[]> => {
+  const response = await axios.get<Country[]>(`${APIEndpoint}/name/${name}?fields=${selectedFields}`)
+
+  return response.data
+}

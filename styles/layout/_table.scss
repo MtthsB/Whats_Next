@@ -31,10 +31,10 @@
       background-color: $color-brown-light;   
       color: $color-green-primary;
       display: flex;
+      flex: 3;
       flex-direction: row;
       flex: 3;
       font-size: 1.2rem;
-      justify-content: space-evenly;
       transform: rotateX(-180deg);
     }
 
@@ -60,6 +60,10 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
+=======
+    justify-content: center;
+>>>>>>> 97524dcf9be43c6d7bdbbc110e6256929be24bc7
     flex: 1;
     font-weight: 10rem;
     justify-content: center;

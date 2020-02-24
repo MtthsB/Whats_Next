@@ -21,3 +21,6 @@
 4003: Set up pagination system  
 4004: Style loading of new information  
 4005: connect table to popup  
+
+## 5. Search
+5001: EVERYTHING SEARCH RELATED  
